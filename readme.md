@@ -24,7 +24,8 @@
     - [Generic Constraints](#generic-constraints)
     - [Generic in Class](#generic-in-class)
     - [Generic in Interface](#generic-in-interface)
-  - [File](#file)
+  - [More](#more)
+    - [File Declaration](#file-declaration)
 
 ## Why TS
 
@@ -419,4 +420,10 @@ const fun1: IPlus<number> = plus
 const fun2: IPlus<string> = connect
 ```
 
-## File
+## More
+
+### File Declaration
+
+```ts
+declare var jQuery: (selector: string) => any;
+```
