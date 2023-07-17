@@ -2,11 +2,12 @@
 
 - [My TypeScript Cookbook](#my-typescript-cookbook)
   - [Why TS](#why-ts)
-  - [Variable Types](#variable-types)
-    - [Basic Types](#basic-types)
+  - [Types](#types)
+    - [Basic Variables](#basic-variables)
     - [Array and Tuple](#array-and-tuple)
     - [Any and Union](#any-and-union)
     - [Enum](#enum)
+    - [Type Assertion](#type-assertion)
   - [Function](#function)
     - [Function Declaration](#function-declaration)
     - [Function Expression](#function-expression)
@@ -31,9 +32,9 @@
 - Fewer errors.
 - Higher inclusiveness.
 
-## Variable Types
+## Types
 
-### Basic Types
+### Basic Variables
 
 ```ts
 let check: boolean = true;
@@ -100,6 +101,38 @@ enum Direction {
 }
 ```
 
+### Type Assertion
+
+```ts
+// way 1
+function getLen(input: number | string): number {
+  const str = input as String;
+  if (str.length) {
+    return str.length;
+  } else {
+    const num = input as Number;
+    return num.toString().length;
+  }
+}
+
+// way 2
+function getLen(input: number | string): number {
+  if ((<string>input).length) {
+    return (<string>input).length;
+  } else {
+    input.toString().length;
+  }
+}
+```
+
+Note: Type assertion is not the same as type conversion.
+
+```ts
+function getLen(input: number | string): boolean {
+  return <boolean>input; // wrong
+}
+```
+
 ## Function
 
 ### Function Declaration
@@ -126,6 +159,24 @@ function add(x: number, y: number, z: number = 10): number {}
 const add = function (x: number, y: number, z?: number): number {};
 
 const add2: (x: number, y: number, z?: number) => number = add;
+
+// type aliases
+type PlusType = (x: number, y: number, z?: number) => number;
+const add3: PlusType = add;
+```
+
+Note: Type aliases can also be used for parameters.
+
+```ts
+type NameResolver = () => string;
+type NameOrResolver = string | NameResolver;
+function getName(n: NameOrResolver): string {
+  if (typeof n === "string") {
+    return n;
+  } else {
+    return n();
+  }
+}
 ```
 
 ## Object
@@ -257,7 +308,7 @@ function plus: (a: number, b: number) : number {
   return a+b;
 }
 
-const newFun: IPlus = plus;
+const newFun: IPlus = plus
 ```
 
 ## Generics
@@ -357,15 +408,15 @@ interface IPlus<T> {
 }
 
 function plus: (a: number, b: number) : number {
-  return a+b;
+  return a+b
 }
 
 function connect: (a: string, b: string) : string {
-  return a+b;
+  return a+b
 }
 
-const fun1: IPlus<number> = plus;
-const fun2: IPlus<string> = connect;
+const fun1: IPlus<number> = plus
+const fun2: IPlus<string> = connect
 ```
 
 ## File
