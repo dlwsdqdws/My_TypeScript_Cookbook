@@ -8,10 +8,21 @@
     - [Any and Union](#any-and-union)
     - [Enum](#enum)
   - [Function](#function)
+    - [Function Declaration](#function-declaration)
+    - [Function Expression](#function-expression)
   - [Object](#object)
     - [Class](#class)
+      - [Object-oriented Programming](#object-oriented-programming)
+      - [Modifiers](#modifiers)
     - [Interface](#interface)
+      - [Shape Object](#shape-object)
+      - [Abstract Class](#abstract-class)
+      - [Describe Function](#describe-function)
   - [Generics](#generics)
+    - [Placeholders For Types](#placeholders-for-types)
+    - [Generic Constraints](#generic-constraints)
+    - [Generic in Class](#generic-in-class)
+    - [Generic in Interface](#generic-in-interface)
   - [File](#file)
 
 ## Why TS
@@ -77,8 +88,8 @@ numberOrString = "Now is a string";
 enum Direction {
   Left = 5,
   Right, // default = 6
-  Up,
-  Down,
+  Up, // default = 7
+  Down, // default = 8
 }
 
 enum Direction {
@@ -91,7 +102,7 @@ enum Direction {
 
 ## Function
 
-1. Function declaration
+### Function Declaration
 
 ```ts
 function add(x: number, y: number, z?: number): number {
@@ -109,7 +120,7 @@ Note: Optional parameters can also be set with default values.
 function add(x: number, y: number, z: number = 10): number {}
 ```
 
-2. Function expression
+### Function Expression
 
 ```ts
 const add = function (x: number, y: number, z?: number): number {};
@@ -120,6 +131,8 @@ const add2: (x: number, y: number, z?: number) => number = add;
 ## Object
 
 ### Class
+
+#### Object-oriented Programming
 
 ```ts
 // Encapsulation
@@ -134,7 +147,7 @@ class Animal {
 }
 
 const snake = new Animal("Cobra");
-console.log(snake.run());
+console.log(snake.run()); // Cobra is running
 
 // Inheritance
 class Dog extends Animal {
@@ -144,8 +157,8 @@ class Dog extends Animal {
 }
 
 const dog = new Dog("Greyhound");
-console.log(dog.run());
-console.log(dog.bark());
+console.log(dog.run()); // Greyhound is running
+console.log(dog.bark()); // Greyhound is barking
 
 // Polymorphism
 class Cat extends Animal {
@@ -159,11 +172,11 @@ class Cat extends Animal {
   }
 }
 
-const cat = new Cat("Siamese");
-console.log(cat.run());
+const cat = new Cat("Siamese"); // Siamese
+console.log(cat.run()); // Siamese is running
 ```
 
-Modifiers:
+#### Modifiers
 
 1. In TypeScript, `public`, `private`, and `protected` are modifiers used to define the accessibility of class members.
 
@@ -186,12 +199,14 @@ class Animal {
 let bird = new Animal("Pigeon");
 console.log(Animal.catagories); // right
 console.log(bird.catagories); // wrong, can only access static property directly on the class
-console.log(Animal.isAnimal(bird));
+console.log(Animal.isAnimal(bird)); // right
 ```
 
 ### Interface
 
-1. Used to describe the shape of an object.
+Duck Typing: If an object or value has the required properties and methods needed for a particular operation or behavior, it can be treated as if it belongs to a specific type, regardless of its actual type.
+
+#### Shape Object
 
 ```ts
 interface IUser {
@@ -210,7 +225,7 @@ user.id = 2; // wrong
 
 Note: When using an interface, all properties must have an **_exact_** match unless the property is marked with the `?` modifier.
 
-2. Used to abstract a `class`.
+#### Abstract Class
 
 ```ts
 interface IRadio {
@@ -231,12 +246,126 @@ class Cellphone implements IRadioWithBattery {
 }
 ```
 
-## Generics
-
-Generics in TypeScript allow you to create reusable code components that can work with different types. They provide a way to define placeholders for types that can be specified when using the code component.
+#### Describe Function
 
 ```ts
+interface IPlus {
+  (a: number, b: number) : number
+}
 
+function plus: (a: number, b: number) : number {
+  return a+b;
+}
+
+const newFun: IPlus = plus;
+```
+
+## Generics
+
+### Placeholders For Types
+
+Generics allows creating reusable code components that can work with different types.
+
+```ts
+function echo<T>(arg: T): T {
+  return arg;
+}
+
+let str: string = echo("str");
+let num: number = echo(123);
+
+function swap<T, U>(tuple: [T, U]): [U, T] {
+  return [tuple[1], tuple[0]];
+}
+
+let res: [number, string] = swap("string", 123);
+```
+
+### Generic Constraints
+
+```ts
+function echoWithArray<T>(arg: T[]): T[] {
+  console.log(arg.length);
+  return arg;
+}
+
+const args1 = echoWithArray([1, 2, 3]); // right
+const args2 = echoWithArray("123"); // wrong
+
+interface IWithLength {
+  length: number;
+}
+
+function echoWithLength<T extends IWithLength>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
+const arr = echoWithLength([1, 2, 3]); // right
+const str = echoWithLength("123"); // right
+const obj = echoWithLength({ length: 10, width: 10 }); // right
+const num = echoWithLength(123); // wrong
+```
+
+### Generic in Class
+
+```ts
+class Queue<T> {
+  private data = [];
+  push(item: T) {
+    return this.data.push(item);
+  }
+  pop(): T {
+    return this.data.shift();
+  }
+}
+
+let queue1 = new Queue<number>();
+queue1.push(1);
+console.log(queue1.pop().toFixed()); // 1
+
+let queue2 = new Queue<string>();
+queue2.push("123");
+console.log(queue2.pop().length); // 3
+```
+
+### Generic in Interface
+
+```ts
+interface IKeyPair<T, U> {
+  key: T;
+  value: U;
+}
+
+let kp1: IKeyPair<number, string> = { key: 1, value: "str" };
+let kp2: IKeyPair<string, number> = { key: "str", value: 1 };
+```
+
+Note:
+
+1. Built-in interfaces can also use generics.
+
+```ts
+let arrNum: Array<number> = [1, 2, 3];
+```
+
+2. Interfaces also support generics for functions.
+
+```ts
+interface IPlus<T> {
+  (a: T, b: T) : T
+}
+
+function plus: (a: number, b: number) : number {
+  return a+b;
+}
+
+function connect: (a: string, b: string) : string {
+  return a+b;
+}
+
+const fun1: IPlus<number> = plus;
+const fun2: IPlus<string> = connect;
 ```
 
 ## File
