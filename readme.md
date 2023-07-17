@@ -108,7 +108,7 @@ let user: IUser = {
 user.id = 2; // wrong
 ```
 
-Note: When using an interface, all properties must have an **exact** match unless the property is marked with the "?" modifier.
+Note: When using an interface, all properties must have an **_exact_** match unless the property is marked with the "?" modifier.
 
 2. Used to abstract a `class`.
 3. Duck Typing.
@@ -183,4 +183,28 @@ class Cat extends Animal {
 
 const cat = new Cat("Siamese");
 console.log(cat.run());
+```
+
+Modifiers:
+
+1. In TypeScript, `public`, `private`, and `protected` are modifiers used to define the accessibility of class members.
+
+- The `public` modifier indicates that a member can be accessed by **_instances of the class, subclasses, and external code_**. If no modifier is explicitly specified, the member is treated as public by default.
+- The `private` modifier indicates that a member can only be accessed **_within the class itself_**. Private members cannot be accessed by instances of the class, subclasses, or external code.
+- The `protected` modifier indicates that a member can be accessed **_within the class itself and its subclasses_**, but not by instances of the class or external code directly.
+
+2. `readonly` indicates that a property can only be assigned a value once and cannot be modified afterwards.
+
+3. `static` allows properties and methods to be accessed directly on the class itself, rather than through an instance of the class.
+
+```ts
+class Animal {
+  static catagories: string[] = ["mammal", "bird"];
+  static isAnimal(a) {
+    return a instanceof Animal;
+  }
+}
+
+let bird = new Animal("Pigeon");
+console.log(Animal.isAnimal(bird));
 ```
