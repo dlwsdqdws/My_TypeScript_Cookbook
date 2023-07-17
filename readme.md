@@ -7,10 +7,12 @@
     - [Array and Tuple](#array-and-tuple)
     - [Any and Union](#any-and-union)
     - [Enum](#enum)
+  - [Function](#function)
   - [Object](#object)
-    - [Function](#function)
     - [Class](#class)
     - [Interface](#interface)
+  - [Generics](#generics)
+  - [File](#file)
 
 ## Why TS
 
@@ -87,9 +89,7 @@ enum Direction {
 }
 ```
 
-## Object
-
-### Function
+## Function
 
 1. Function declaration
 
@@ -116,6 +116,8 @@ const add = function (x: number, y: number, z?: number): number {};
 
 const add2: (x: number, y: number, z?: number) => number = add;
 ```
+
+## Object
 
 ### Class
 
@@ -182,6 +184,8 @@ class Animal {
 }
 
 let bird = new Animal("Pigeon");
+console.log(Animal.catagories); // right
+console.log(bird.catagories); // wrong, can only access static property directly on the class
 console.log(Animal.isAnimal(bird));
 ```
 
@@ -204,7 +208,7 @@ let user: IUser = {
 user.id = 2; // wrong
 ```
 
-Note: When using an interface, all properties must have an **_exact_** match unless the property is marked with the "?" modifier.
+Note: When using an interface, all properties must have an **_exact_** match unless the property is marked with the `?` modifier.
 
 2. Used to abstract a `class`.
 
@@ -227,3 +231,12 @@ class Cellphone implements IRadioWithBattery {
 }
 ```
 
+## Generics
+
+Generics in TypeScript allow you to create reusable code components that can work with different types. They provide a way to define placeholders for types that can be specified when using the code component.
+
+```ts
+
+```
+
+## File
