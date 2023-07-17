@@ -8,9 +8,9 @@
     - [Any and Union](#any-and-union)
     - [Enum](#enum)
   - [Object](#object)
-    - [Interface](#interface)
     - [Function](#function)
     - [Class](#class)
+    - [Interface](#interface)
 
 ## Why TS
 
@@ -88,30 +88,6 @@ enum Direction {
 ```
 
 ## Object
-
-### Interface
-
-1. Used to describe the shape of an object.
-
-```ts
-interface IUser {
-  readonly id: number;
-  name: string;
-  gender?: string;
-}
-
-let user: IUser = {
-  id: 0,
-  name: "Lei Lu",
-};
-
-user.id = 2; // wrong
-```
-
-Note: When using an interface, all properties must have an **_exact_** match unless the property is marked with the "?" modifier.
-
-2. Used to abstract a `class`.
-3. Duck Typing.
 
 ### Function
 
@@ -193,9 +169,9 @@ Modifiers:
 - The `private` modifier indicates that a member can only be accessed **_within the class itself_**. Private members cannot be accessed by instances of the class, subclasses, or external code.
 - The `protected` modifier indicates that a member can be accessed **_within the class itself and its subclasses_**, but not by instances of the class or external code directly.
 
-2. `readonly` indicates that a property can only be assigned a value once and cannot be modified afterwards.
+2. The `readonly` modifier indicates that a property can only be assigned a value once and cannot be modified afterwards.
 
-3. `static` allows properties and methods to be accessed directly on the class itself, rather than through an instance of the class.
+3. The `static` modifier allows properties and methods to be accessed directly on the class itself, rather than through an instance of the class.
 
 ```ts
 class Animal {
@@ -208,3 +184,46 @@ class Animal {
 let bird = new Animal("Pigeon");
 console.log(Animal.isAnimal(bird));
 ```
+
+### Interface
+
+1. Used to describe the shape of an object.
+
+```ts
+interface IUser {
+  readonly id: number;
+  name: string;
+  gender?: string;
+}
+
+let user: IUser = {
+  id: 0,
+  name: "Lei Lu",
+};
+
+user.id = 2; // wrong
+```
+
+Note: When using an interface, all properties must have an **_exact_** match unless the property is marked with the "?" modifier.
+
+2. Used to abstract a `class`.
+
+```ts
+interface IRadio {
+  switchRadio(): void;
+}
+
+interface IRadioWithBattery extends IRadio {
+  checkStatus();
+}
+
+class Car implements IRadio {
+  switchRadio() {}
+}
+
+class Cellphone implements IRadioWithBattery {
+  switchRadio() {}
+  checkStatus() {}
+}
+```
+
